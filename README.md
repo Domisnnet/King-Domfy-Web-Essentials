@@ -70,6 +70,18 @@ Implementação de controles customizados para o carrossel, garantindo que a exp
 
 ---
 
+<h2 id="instalacao-local">6. 🚀 Instalação e Configuração Local</h2>
+
+```bash
+# Clonar o repositório
+git clone [https://github.com/Domisnnet/GitHub-Stats.git](https://github.com/Domisnnet/King-Domfy.git)
+
+# Acessar a pasta
+cd King-Domfy
+```
+
+---
+
 <h2 id="como-contribuir">7. 🤝 Como Contribuir</h2>
 
 Siga os passos abaixo para fortalecer este projeto:
