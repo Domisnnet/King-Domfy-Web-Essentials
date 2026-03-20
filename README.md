@@ -74,7 +74,7 @@ Implementação de controles customizados para o carrossel, garantindo que a exp
 
 ```bash
 # Clonar o repositório
-git clone [https://github.com/Domisnnet/GitHub-Stats.git](https://github.com/Domisnnet/King-Domfy.git)
+git clone [https://github.com/Domisnnet/King-Domfy.git](https://github.com/Domisnnet/King-Domfy.git)
 
 # Acessar a pasta
 cd King-Domfy
