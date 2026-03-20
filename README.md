@@ -70,6 +70,18 @@ Implementação de controles customizados para o carrossel, garantindo que a exp
 
 ---
 
+<h2 id="instalacao-local">6. 🚀 Instalação e Configuração Local</h2>
+
+```bash
+# Clonar o repositório
+git clone [https://github.com/Domisnnet/GitHub-Stats.git](https://github.com/Domisnnet/King-Domfy.git)
+
+# Acessar a pasta
+cd King-Domfy
+```
+
+---
+
 <h2 id="como-contribuir">7. 🤝 Como Contribuir</h2>
 
 Siga os passos abaixo para fortalecer este projeto:
@@ -139,7 +151,7 @@ O **King-Domfy** é o resultado de esforço técnico e inspiração em grandes p
 | Atribuição | Responsável / Recurso | Descrição |
 | :--- | :--- | :--- |
 | **Arquitetura & Dev** | **DomisDev** | Idealização, estruturação do código e implementação da lógica responsiva. |
-| **Identidade Visual** | **Spotify Inc.** | Referência de Design System, paleta de cores e UX (User Experience). |
+| **Identidade Visual** | **Spotify Inc.** | Referência de Design System, paleta de cores e UX. |
 | **Engine Gráfica** | **Bootstrap & CSS3** | Fornecimento dos componentes de layout e estilização moderna. |
 | **Assets Visuais** | **Font Awesome & Devicons** | Ícones de alta fidelidade que compõem a estética da interface. |
 | **Aprendizado** | **Comunidade Dev** | Baseado em princípios de Clean Code e boas práticas de Front-end. |
