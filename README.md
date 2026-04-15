@@ -41,7 +41,7 @@ Bem-vindo ao **King-Domfy**! Uma recriação de interface inspirada no Spotify, 
 Clique no botão abaixo para iniciar a experiência King-Domfy diretamente no seu navegador:
 
 <div align="left">
-  <a href="https://domisnnet.github.io/King-Domfy/" target="_blank">
+  <a href="https://domisnnet.github.io/King-Domfy-Web-Essentials/" target="_blank">
     <img alt="Botão Acessar" src="src/imagens/botão.webp" height="70" width="70" />
   </a>
 </div>
