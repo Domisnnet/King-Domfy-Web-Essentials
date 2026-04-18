@@ -16,6 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error(error);
       });
   }
-  loadTemplate("header-placeholder", "templates/header.html");
-  loadTemplate("footer-placeholder", "templates/footer.html");
+  loadTemplate("header-placeholder", "src/templates/header.html");
+  loadTemplate("footer-placeholder", "src/templates/footer.html");
 });
