@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   const loadTemplate = (id, url) => {
-    const finalUrl = new URL(url, window.location.origin).href;
+    const path = window.location.pathname;
+    const isSubPage = path.includes('/pages/');
+    const baseUrl = isSubPage ? '../' : './';
+    const finalUrl = baseUrl + url;
+
     return fetch(finalUrl)
       .then(response => {
         if (!response.ok) {
@@ -13,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (element) {
           element.innerHTML = data;
         } else {
-          console.error(`Elemento com id '${id}' não encontrado.`);
         }
       });
   };
