@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   const base = document.body.dataset.base || '';
-  const headerPromise = loadTemplate('header-placeholder', `${base}src/templates/header.html`);
-  const footerPromise = loadTemplate('footer-placeholder', `${base}src/templates/footer.html`);
+  const headerPromise = loadTemplate('header-placeholder', `${base}templates/header.html`);
+  const footerPromise = loadTemplate('footer-placeholder', `${base}templates/footer.html`);
 
   Promise.all([headerPromise, footerPromise])
     .then(() => {
