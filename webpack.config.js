@@ -7,27 +7,13 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', // Garante que os caminhos no HTML sejam relativos à raiz
+    clean: true, 
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'imagens/[name][ext]'
-        }
-      },
-      {
-        test: /\.(mp3|wav|ogg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'media/[name][ext]'
-        }
       },
     ],
   },
@@ -38,8 +24,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        { from: '*.html', to: '[name][ext]' },
         { from: 'src/media', to: 'media' },
         { from: 'src/imagens', to: 'imagens' },
+        { from: 'src/vendor', to: 'vendor' },
       ],
     }),
   ],

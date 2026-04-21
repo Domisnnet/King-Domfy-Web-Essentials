@@ -5,7 +5,7 @@ import '@src/vendor/fontawesome/js/v4-shims.min.js';
 import './template-loader.js';
 import '@src/css/estilos-globais.css';
 
-let indiceAtual = 0;
+let indiceAtual = 1; 
 const audio = new Audio();
 let isPlaying = false;
 let isShuffle = false;
@@ -62,18 +62,24 @@ const initPlayer = () => {
     } else if (isShuffle) {
       let novoIndice;
       do {
-        novoIndice = Math.floor(Math.random() * playlist.length);
-      } while (novoIndice === indiceAtual && playlist.length > 1);
+        novoIndice = Math.floor(Math.random() * (playlist.length - 1)) + 1; 
+      } while (novoIndice === indiceAtual && playlist.length > 2);
       indiceAtual = novoIndice;
     } else {
-      indiceAtual = (indiceAtual + 1) % playlist.length;
+      indiceAtual = indiceAtual + 1;
+      if (indiceAtual >= playlist.length) {
+        indiceAtual = 1; 
+      }
     }
     carregarMusica(indiceAtual);
     if (isPlaying) audio.play();
   };
 
   const musicaAnterior = () => {
-    indiceAtual = (indiceAtual - 1 + playlist.length) % playlist.length;
+    indiceAtual = indiceAtual - 1;
+    if (indiceAtual < 1) {
+      indiceAtual = playlist.length - 1; 
+    }
     carregarMusica(indiceAtual);
     if (isPlaying) audio.play();
   };
