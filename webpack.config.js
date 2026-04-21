@@ -1,13 +1,31 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const pages = [
+  "ajuda.html", "aplicativo-movel-gratis.html", "artistas.html", "baixar.html",
+  "cookies.html", "desenvolvedores.html", "empregos.html", "entrar.html",
+  "imprensa.html", "inscrever-se.html", "legal.html", "lgpd.html", "marcas.html",
+  "novidades.html", "player.html", "premium.html", "privacidade-termos.html", "privacidade.html", 
+  "sobre.html", "suporte.html", "termos.html"
+];
+
+const htmlPlugins = pages.map(page => {
+  return new HtmlWebpackPlugin({
+    template: path.join(__dirname, 'src/pages', page),
+    filename: `pages/${page}`,
+    inject: 'body'
+  });
+});
 
 module.exports = {
   entry: './src/js/app.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true, 
+    publicPath: '/',
+    clean: true,
   },
   module: {
     rules: [
@@ -15,18 +33,36 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'imagens/[name][ext][query]'
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'webfonts/[name][ext]'
+        }
+      }
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/pages/player.html',
+      filename: 'index.html',
+      inject: 'body'
+    }),
+    ...htmlPlugins,
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: '*.html', to: '[name][ext]' },
         { from: 'src/templates', to: 'templates' },
-        { from: 'src/pages', to: 'pages' },
         { from: 'src/media', to: 'media' },
         { from: 'src/imagens', to: 'imagens' },
         { from: 'src/vendor', to: 'vendor' },
@@ -42,8 +78,12 @@ module.exports = {
     },
   },
   devServer: {
-    static: './dist',
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
+    watchFiles: ['src/**/*'],
     hot: true,
     open: true,
+    historyApiFallback: true,
   },
 };

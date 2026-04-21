@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   Promise.all([headerPromise, footerPromise])
     .then(() => {
-      const event = new CustomEvent('templatesReady');
-      document.dispatchEvent(event);
+      setTimeout(() => {
+        const event = new CustomEvent('templatesReady');
+        document.dispatchEvent(event);
+      }, 0);
     })
     .catch(error => console.error('Erro ao carregar templates:', error));
 });

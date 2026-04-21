@@ -1,11 +1,15 @@
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
+import '@src/vendor/bootstrap/css/bootstrap.min.css';
+import '@src/vendor/fontawesome/css/all.min.css';
 import '@src/vendor/fontawesome/js/v4-shims.min.js';
 import './template-loader.js';
 import '@src/css/estilos-globais.css';
 
-let indiceAtual = 1; 
+console.log("app.js loaded. Version: DIAGNOSTIC");
+
+let indiceAtual = 1;
 const audio = new Audio();
 let isPlaying = false;
 let isShuffle = false;
@@ -26,7 +30,17 @@ const playlist = [
 ];
 
 const initPlayer = () => {
+  console.log("initPlayer called.");
   const btnPlayPause = document.getElementById('btnPlayPause');
+  console.log("Element [btnPlayPause]:", btnPlayPause);
+
+  if (!btnPlayPause) {
+    console.log("GUARD CLAUSE: btnPlayPause is null. Exiting initPlayer.");
+    return;
+  }
+
+  console.log("Player elements found. Proceeding with initialization.");
+
   const btnNext = document.getElementById('btnNext');
   const btnPrev = document.getElementById('btnPrev');
   const btnShuffle = document.getElementById('btnShuffle');
@@ -62,13 +76,13 @@ const initPlayer = () => {
     } else if (isShuffle) {
       let novoIndice;
       do {
-        novoIndice = Math.floor(Math.random() * (playlist.length - 1)) + 1; 
+        novoIndice = Math.floor(Math.random() * (playlist.length - 1)) + 1;
       } while (novoIndice === indiceAtual && playlist.length > 2);
       indiceAtual = novoIndice;
     } else {
       indiceAtual = indiceAtual + 1;
       if (indiceAtual >= playlist.length) {
-        indiceAtual = 1; 
+        indiceAtual = 1;
       }
     }
     carregarMusica(indiceAtual);
@@ -78,7 +92,7 @@ const initPlayer = () => {
   const musicaAnterior = () => {
     indiceAtual = indiceAtual - 1;
     if (indiceAtual < 1) {
-      indiceAtual = playlist.length - 1; 
+      indiceAtual = playlist.length - 1;
     }
     carregarMusica(indiceAtual);
     if (isPlaying) audio.play();
