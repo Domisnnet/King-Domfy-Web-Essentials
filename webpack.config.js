@@ -24,7 +24,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '', // CORREÇÃO FINAL E DEFINITIVA
+    publicPath: '/', 
     clean: true,
   },
   module: {
@@ -80,6 +80,9 @@ module.exports = {
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'dist'),
+    },
+    devMiddleware: {
+      publicPath: '/'
     },
     watchFiles: ['src/**/*'],
     hot: true,

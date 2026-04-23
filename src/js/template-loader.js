@@ -1,15 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   const loadTemplate = (id, url) => {
-    const path = window.location.pathname;
-    const isSubPage = path.includes('/pages/');
-    // CORREÇÃO: O caminho base para os templates deve ser relativo à raiz do site.
-    const baseUrl = isSubPage ? '../' : '';
-    const finalUrl = baseUrl + url;
-
-    return fetch(finalUrl)
+    return fetch(url)
       .then(response => {
         if (!response.ok) {
-          throw new Error(`Erro HTTP ${response.status} ao carregar ${finalUrl}`);
+          throw new Error(`Erro HTTP ${response.status} ao carregar ${url}`);
         }
         return response.text();
       })
@@ -17,13 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const element = document.getElementById(id);
         if (element) {
           element.innerHTML = data;
-        } else {
         }
       });
   };
 
-  const headerPromise = loadTemplate('header-placeholder', 'templates/header.html');
-  const footerPromise = loadTemplate('footer-placeholder', 'templates/footer.html');
+  const headerPromise = loadTemplate('header-placeholder', '/templates/header.html');
+  const footerPromise = loadTemplate('footer-placeholder', '/templates/footer.html');
 
   Promise.all([headerPromise, footerPromise])
     .then(() => {
