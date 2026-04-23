@@ -41,6 +41,13 @@ module.exports = {
         }
       },
       {
+        test: /\.mp3$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'media/[name][ext][query]'
+        }
+      },
+      {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
@@ -63,8 +70,6 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/templates', to: 'templates' },
-        { from: 'src/media', to: 'media' },
-        { from: 'src/imagens', to: 'imagens' },
         { from: 'src/vendor', to: 'vendor' },
       ],
     }),
@@ -79,7 +84,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, 'src'),
+      directory: path.resolve(__dirname, 'dist'),
     },
     devMiddleware: {
       publicPath: '/'
