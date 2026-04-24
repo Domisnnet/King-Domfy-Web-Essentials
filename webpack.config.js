@@ -23,7 +23,7 @@ module.exports = {
   entry: './src/js/app.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs'),
     publicPath: '/', 
     clean: true,
   },
@@ -84,7 +84,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, 'dist'),
+      directory: path.resolve(__dirname, 'docs'),
     },
     devMiddleware: {
       publicPath: '/'
