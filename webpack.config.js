@@ -1,3 +1,4 @@
+
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -5,9 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const pages = [
   "ajuda.html", "aplicativo-movel-gratis.html", "artistas.html", "baixar.html",
-  "cookies.html", "desenvolvedores.html", "empregos.html", "entrar.html", 
+  "cookies.html", "desenvolvedores.html", "empregos.html", "entrar.html",
   "imprensa.html", "inscrever-se.html", "legal.html", "lgpd.html", "marcas.html",
-  "novidades.html", "player.html", "premium.html", "privacidade-termos.html", 
+  "novidades.html", "player.html", "premium.html", "privacidade-termos.html",
   "privacidade.html", "sobre.html", "suporte.html", "termos.html"
 ];
 
@@ -24,11 +25,15 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', 
+    publicPath: '/',
     clean: true,
   },
   module: {
     rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
@@ -76,7 +81,8 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      '@src': path.resolve(__dirname, 'src/'),
+      '@': path.resolve(__dirname, 'src/'),
+      '@imagens': path.resolve(__dirname, 'src/imagens'),
       'jquery': path.resolve(__dirname, 'src/vendor/jquery/jquery.min.js'),
       'popper.js': path.resolve(__dirname, 'src/vendor/popper/popper.min.js'),
       'bootstrap': path.resolve(__dirname, 'src/vendor/bootstrap/js/bootstrap.bundle.min.js'),
