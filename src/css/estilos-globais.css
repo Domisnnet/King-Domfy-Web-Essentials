@@ -21,7 +21,7 @@ body {
   Layout da página inicial
 ========================= */
 body#home {
-  background: url(../imagens/capa.png), url(../imagens/ruido.png), linear-gradient(50deg, #ff4169, #7c26f8);
+  background: url(../assets/imagens/capa.png), url(../assets/imagens/ruido.png), linear-gradient(50deg, #ff4169, #7c26f8);
   background-attachment: fixed;
   overflow-x: hidden;
 }
@@ -771,8 +771,6 @@ footer .row>div ul {
   justify-content: center;
   text-align: center;
   color: white;
-  background-image: url('../imagens/King-Domfy.png');
-  background-size: cover;
   background-position: center;
 }
 
