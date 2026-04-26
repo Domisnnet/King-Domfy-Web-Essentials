@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const isDev = process.env.NODE_ENV !== 'production';
+
 const pages = [
   "ajuda.html", "aplicativo-movel-gratis.html", "artistas.html", "baixar.html",
   "cookies.html", "desenvolvedores.html", "empregos.html", "entrar.html",
@@ -10,24 +13,25 @@ const pages = [
   "privacidade.html", "sobre.html", "suporte.html", "termos.html"
 ];
 
-const htmlPlugins = pages.map(page => {
-  return new HtmlWebpackPlugin({
+const htmlPlugins = pages.map(page =>
+  new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/pages', page),
     filename: `pages/${page}`,
     inject: 'body',
-    minify: false
-  });
-});
+    minify: !isDev,
+  })
+);
 
 module.exports = {
-  mode: 'development', 
+  mode: isDev ? 'development' : 'production',
   entry: path.resolve(__dirname, 'src/js/app.js'),
   output: {
     filename: 'js/[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/', 
     clean: true,
   },
+  devtool: isDev ? 'eval-source-map' : false,
 
   module: {
     rules: [
@@ -37,36 +41,35 @@ module.exports = {
         options: {
           minimize: false,
           esModule: false,
-          sources: {
-            list: [
-              '...',
-            ],
-          },
+          sources: false, 
         },
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'imagens/[name].[contenthash][ext]',
+          filename: 'assets/imagens/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(mp3|wav)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'media/[name].[contenthash][ext]',
+          filename: 'assets/media/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'webfonts/[name][ext]',
+          filename: 'assets/fonts/[name][ext]',
         },
       },
     ],
@@ -77,10 +80,14 @@ module.exports = {
       template: path.resolve(__dirname, 'src/pages/home.html'),
       filename: 'index.html',
       inject: 'body',
-      minify: false
+      minify: !isDev,
     }),
 
     ...htmlPlugins,
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css',
+    }),
+
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -89,9 +96,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src/templates'),
-          to: 'templates',
-          noErrorOnMissing: true,
+          from: path.resolve(__dirname, 'public'),
+          to: '', 
         },
         {
           from: path.resolve(__dirname, 'src/vendor'),
@@ -105,21 +111,23 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      '@imagens': path.resolve(__dirname, 'src/imagens'),
       'jquery': path.resolve(__dirname, 'src/vendor/jquery/jquery.min.js'),
     },
   },
 
   devServer: {
+    port: 3000,
+    open: true,
+    hot: true,
+
     static: {
-      directory: path.resolve(__dirname, 'dist'),
+      directory: path.resolve(__dirname, 'public'), 
+      publicPath: '/',
     },
+
     devMiddleware: {
       publicPath: '/',
     },
-    watchFiles: ['src/**/*'],
-    hot: true,
-    open: true,
-    port: 3000,
+    watchFiles: ['src/**/*', 'public/**/*'],
   },
 };

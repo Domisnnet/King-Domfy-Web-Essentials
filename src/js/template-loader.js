@@ -16,8 +16,8 @@ function loadTemplate(id, url) {
 
 document.addEventListener('DOMContentLoaded', () => {
   Promise.all([
-    loadTemplate('header-placeholder', 'templates/header.html'),
-    loadTemplate('footer-placeholder', 'templates/footer.html')
+    loadTemplate('header-placeholder', '/templates/header.html'),
+    loadTemplate('footer-placeholder', '/templates/footer.html')
   ]).then(() => {
     document.dispatchEvent(new Event('templatesReady'));
   });

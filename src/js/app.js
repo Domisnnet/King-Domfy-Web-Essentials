@@ -1,7 +1,6 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/dist/dropdown';
 import '@/vendor/fontawesome/css/all.min.css';
-import '@/vendor/fontawesome/js/v4-shims.min.js';
 import '@/js/template-loader.js';
 import '@/css/estilos-globais.css';
 
