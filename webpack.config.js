@@ -1,9 +1,7 @@
-
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const pages = [
   "ajuda.html", "aplicativo-movel-gratis.html", "artistas.html", "baixar.html",
   "cookies.html", "desenvolvedores.html", "empregos.html", "entrar.html",
@@ -14,89 +12,114 @@ const pages = [
 
 const htmlPlugins = pages.map(page => {
   return new HtmlWebpackPlugin({
-    template: path.join(__dirname, 'src/pages', page),
+    template: path.resolve(__dirname, 'src/pages', page),
     filename: `pages/${page}`,
-    inject: 'body'
+    inject: 'body',
+    minify: false
   });
 });
 
 module.exports = {
-  entry: './src/js/app.js',
+  mode: 'development', 
+  entry: path.resolve(__dirname, 'src/js/app.js'),
   output: {
-    filename: 'bundle.js',
+    filename: 'js/[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     clean: true,
   },
+
   module: {
     rules: [
       {
         test: /\.html$/i,
         loader: 'html-loader',
+        options: {
+          minimize: false,
+          esModule: false,
+          sources: {
+            list: [
+              '...',
+            ],
+          },
+        },
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'imagens/[name][ext][query]'
-        }
+          filename: 'imagens/[name].[contenthash][ext]',
+        },
       },
       {
-        test: /\.mp3$/i,
+        test: /\.(mp3|wav)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'media/[name][ext][query]'
-        }
+          filename: 'media/[name].[contenthash][ext]',
+        },
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        test: /\.(woff2?|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'webfonts/[name][ext]'
-        }
-      }
+          filename: 'webfonts/[name][ext]',
+        },
+      },
     ],
   },
+
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/pages/home.html',
+      template: path.resolve(__dirname, 'src/pages/home.html'),
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+      minify: false
     }),
+
     ...htmlPlugins,
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
     }),
+
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/templates', to: 'templates' },
-        { from: 'src/vendor', to: 'vendor' },
+        {
+          from: path.resolve(__dirname, 'src/templates'),
+          to: 'templates',
+          noErrorOnMissing: true,
+        },
+        {
+          from: path.resolve(__dirname, 'src/vendor'),
+          to: 'vendor',
+          noErrorOnMissing: true,
+        },
       ],
     }),
   ],
+
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src/'),
+      '@': path.resolve(__dirname, 'src'),
       '@imagens': path.resolve(__dirname, 'src/imagens'),
       'jquery': path.resolve(__dirname, 'src/vendor/jquery/jquery.min.js'),
-      'popper.js': path.resolve(__dirname, 'src/vendor/popper/popper.min.js'),
-      'bootstrap': path.resolve(__dirname, 'src/vendor/bootstrap/js/bootstrap.bundle.min.js'),
     },
   },
+
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'dist'),
     },
     devMiddleware: {
-      publicPath: '/'
+      publicPath: '/',
     },
     watchFiles: ['src/**/*'],
     hot: true,
     open: true,
+    port: 3000,
   },
 };

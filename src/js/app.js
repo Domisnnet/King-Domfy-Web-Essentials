@@ -1,11 +1,9 @@
-import 'jquery';
-import 'popper.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-import '@src/vendor/bootstrap/css/bootstrap.min.css';
-import '@src/vendor/fontawesome/css/all.min.css';
-import '@src/vendor/fontawesome/js/v4-shims.min.js';
-import '@src/js/template-loader.js';
-import '@src/css/estilos-globais.css';
+import '@/vendor/fontawesome/css/all.min.css';
+import '@/vendor/fontawesome/js/v4-shims.min.js';
+import '@/js/template-loader.js';
+import '@/css/estilos-globais.css';
 
 let indiceAtual = 1; 
 const audio = new Audio();
@@ -68,7 +66,7 @@ const initPlayer = () => {
       } while (novoIndice === indiceAtual && playlist.length > 2);
       indiceAtual = novoIndice;
     } else {
-      indiceAtual = indiceAtual + 1;
+      indiceAtual++;
       if (indiceAtual >= playlist.length) {
         indiceAtual = 1; 
       }
@@ -78,7 +76,7 @@ const initPlayer = () => {
   };
 
   const musicaAnterior = () => {
-    indiceAtual = indiceAtual - 1;
+    indiceAtual--;
     if (indiceAtual < 1) {
       indiceAtual = playlist.length - 1; 
     }
@@ -108,47 +106,61 @@ const initPlayer = () => {
     isRepeat = !isRepeat;
     btnRepeat.classList.toggle('active-control', isRepeat);
   });
-
   btnNext.addEventListener('click', proximaMusica);
   btnPrev.addEventListener('click', musicaAnterior);
   audio.addEventListener('timeupdate', () => {
     const percent = (audio.currentTime / audio.duration) * 100;
     if (progressFill) progressFill.style.width = `${percent}%`;
     if (timeCurrent) timeCurrent.innerText = formatarTempo(audio.currentTime);
-    if (timeTotal && !isNaN(audio.duration)) timeTotal.innerText = formatarTempo(audio.duration);
+    if (timeTotal && !isNaN(audio.duration)) {
+      timeTotal.innerText = formatarTempo(audio.duration);
+    }
   });
 
-  progressContainer.addEventListener('click', (e) => {
-    const width = progressContainer.clientWidth;
-    const clickX = e.offsetX;
-    if (audio.duration) audio.currentTime = (clickX / width) * audio.duration;
-  });
-
+  if (progressContainer) {
+    progressContainer.addEventListener('click', (e) => {
+      const width = progressContainer.clientWidth;
+      const clickX = e.offsetX;
+      if (audio.duration) {
+        audio.currentTime = (clickX / width) * audio.duration;
+      }
+    });
+  }
   audio.addEventListener('ended', proximaMusica);
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = volumeSlider.value;
-    if (audio.volume === 0) {
-      volumeIcon.className = 'fas fa-volume-mute';
-    } else if (audio.volume < 0.5) {
-      volumeIcon.className = 'fas fa-volume-down';
-    } else {
-      volumeIcon.className = 'fas fa-volume-up';
-    }
-  });
 
-  volumeIcon.addEventListener('click', () => {
-    audio.muted = !audio.muted;
-    if (audio.muted) {
-      volumeIcon.className = 'fas fa-volume-mute';
-      volumeSlider.value = 0;
-    } else {
-      volumeIcon.className = 'fas fa-volume-up';
-      volumeSlider.value = audio.volume;
-    }
-  });
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+      if (audio.volume === 0) {
+        volumeIcon.className = 'fas fa-volume-mute';
+      } else if (audio.volume < 0.5) {
+        volumeIcon.className = 'fas fa-volume-down';
+      } else {
+        volumeIcon.className = 'fas fa-volume-up';
+      }
+    });
+  }
 
+  if (volumeIcon) {
+    volumeIcon.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      if (audio.muted) {
+        volumeIcon.className = 'fas fa-volume-mute';
+        volumeSlider.value = 0;
+      } else {
+        volumeIcon.className = 'fas fa-volume-up';
+        volumeSlider.value = audio.volume;
+      }
+    });
+  }
   carregarMusica(indiceAtual);
-  audio.volume = volumeSlider.value;
+  if (volumeSlider) audio.volume = volumeSlider.value;
 };
 
 document.addEventListener('templatesReady', initPlayer);
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (!document.getElementById('btnPlayPause')) return;
+    initPlayer();
+  }, 500);
+});
